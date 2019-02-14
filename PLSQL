@@ -1,0 +1,25 @@
+//Using PLSQL EXCEPTION
+
+
+declare
+p_id person.id%type :=13;
+p_name person.name%type;
+p_email person.email%type;
+MAX_ID_REACHED EXCEPTION;
+begin
+if(p_id > 12) then
+raise MAX_ID_REACHED;
+end if;
+select name,email into p_name,p_email from person
+where id = p_id;
+DBMS_OUTPUT.PUT_LINE('Name: ' || p_name);
+DBMS_OUTPUT.PUT_LINE('EMAIL: '|| p_email);
+EXCEPTION
+WHEN no_data_found then
+dbms_output.put_line('No Such Person!');
+when MAX_ID_REACHED then
+dbms_output.put_line('ID cant be greater then 12');
+when others then
+dbms_output.put_line('error');
+end;
+/
