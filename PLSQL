@@ -2,24 +2,70 @@
 
 
 declare
-p_id person.id%type :=13;
-p_name person.name%type;
-p_email person.email%type;
-MAX_ID_REACHED EXCEPTION;
+  p_id person.id%type :=13;
+  p_name person.name%type;
+  p_email person.email%type;
+  MAX_ID_REACHED EXCEPTION;
 begin
-if(p_id > 12) then
-raise MAX_ID_REACHED;
-end if;
-select name,email into p_name,p_email from person
-where id = p_id;
-DBMS_OUTPUT.PUT_LINE('Name: ' || p_name);
-DBMS_OUTPUT.PUT_LINE('EMAIL: '|| p_email);
+  if(p_id > 12) then
+    raise MAX_ID_REACHED;
+  end if;
+  select name,email into p_name,p_email from person where id = p_id;
+  DBMS_OUTPUT.PUT_LINE('Name: ' || p_name);
+  DBMS_OUTPUT.PUT_LINE('EMAIL: '|| p_email);
 EXCEPTION
-WHEN no_data_found then
-dbms_output.put_line('No Such Person!');
-when MAX_ID_REACHED then
-dbms_output.put_line('ID cant be greater then 12');
-when others then
-dbms_output.put_line('error');
+  WHEN no_data_found then
+    dbms_output.put_line('No Such Person!');
+  when MAX_ID_REACHED then
+    dbms_output.put_line('ID cant be greater then 12');
+  when others then
+    dbms_output.put_line('error');
+end;
+/
+
+
+
+Declare
+emp_code emp.empno%type := &emp_id;
+data emp%rowtype;
+begin
+	select * into data from emp where emp_code = empno;
+		dbms_output.put_line(data.ename);
+	Exception
+		when no_data_found then
+			raise_application_error(-20101,'Employee Does not exist');
+end;
+/
+
+
+
+
+     declare
+           pid person.id%type;
+          pdob person.dob%type;
+        begin
+           while 1 = 1 loop
+                   pid := &ENTER_ID;
+                   /*pdob := '&ENTER_DOB';*/
+               dbms_output.put_line(pid);
+                /* update person set dob = pdob where id = pid;*/
+         end loop;
+     end;
+     
+     
+ declare
+          pid person.id%type;
+	  c number;
+          pdob person.dob%type;
+          begin
+		select count(*) into c from person where id is not null;
+		dbms_output.put_line(c);
+           	while 1 = 1 loop
+                  	 pid := &ENTER_ID;
+              		 dbms_output.put_line(pid);
+                end loop;
+	  Exception
+		when no_data_found then
+			dbms_output.put_line('no data');     		
 end;
 /
